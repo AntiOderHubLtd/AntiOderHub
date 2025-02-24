@@ -101,7 +101,26 @@ local Info = [[
    |______________________________________________________________________________|
 ]]
 
+-- Functions:
+local function sendChatMessage(message)
+    if game:GetService("ReplicatedStorage"):FindFirstChild("DefaultChatSystemChatEvents") then
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(message, "All")
+    elseif game:GetService("TextChatService"):FindFirstChild("TextChannels") then
+        local channel = game:GetService("TextChatService").TextChannels:FindFirstChild("RBXGeneral")
+        if channel then
+            channel:SendAsync(message)
+        end
+    else
+        warn("Chat system not found!")
+    end
+end
+
+-- Properties:
+local messagestart = "AntiOder Hub loaded! Site: antioderhub.lol"
+
+
 -- Scripts:
+sendChatMessage(messagestart)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/aftermath-dev/aftermath-dev/refs/heads/main/antioderhub%20open%20source%20things/notification.lua"))()
 wait(5)
 print(ASCII_Text)
